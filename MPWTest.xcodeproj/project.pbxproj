@@ -6,10 +6,19 @@
 	objectVersion = 46;
 	objects = {
 
+/* Begin PBXFileReference section */
+		B0ABCF56193195CC009BD297 /* MPWTest.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = MPWTest.c; sourceTree = "<group>"; };
+		B0ABCF57193195CC009BD297 /* MPWTest.r */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.rez; path = MPWTest.r; sourceTree = "<group>"; };
+		B0ABCF58193195CC009BD297 /* build.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = build.sh; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
 /* Begin PBXGroup section */
 		B0ABCF4B193195A3009BD297 = {
 			isa = PBXGroup;
 			children = (
+				B0ABCF56193195CC009BD297 /* MPWTest.c */,
+				B0ABCF57193195CC009BD297 /* MPWTest.r */,
+				B0ABCF58193195CC009BD297 /* build.sh */,
 			);
 			sourceTree = "<group>";
 		};
@@ -18,11 +27,12 @@
 /* Begin PBXLegacyTarget section */
 		B0ABCF50193195A3009BD297 /* MPWTest */ = {
 			isa = PBXLegacyTarget;
-			buildArgumentsString = "$(ACTION)";
+			buildArgumentsString = build.sh;
 			buildConfigurationList = B0ABCF53193195A3009BD297 /* Build configuration list for PBXLegacyTarget "MPWTest" */;
 			buildPhases = (
 			);
-			buildToolPath = /usr/bin/make;
+			buildToolPath = /bin/sh;
+			buildWorkingDirectory = /Users/steven/Dropbox/Projects/ClassicMacOS/MPWTest;
 			dependencies = (
 			);
 			name = MPWTest;
