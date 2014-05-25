@@ -445,7 +445,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
-		B03B919519322E6B00053E4C /* Headers */ = {
+		B03B919519322E6B00053E4C /* CHeaders (for easier lookup) */ = {
 			isa = PBXGroup;
 			children = (
 				B03B919619322E6B00053E4C /* ADSP.h */,
@@ -881,14 +881,14 @@
 				B03B934419322E6C00053E4C /* XCOFF.h */,
 				B03B934519322E6C00053E4C /* ZoomedVideo.h */,
 			);
-			name = Headers;
+			name = "CHeaders (for easier lookup)";
 			path = "../../../../../../Applications/MPW-GM/Interfaces&Libraries/Interfaces/CIncludes";
 			sourceTree = "<group>";
 		};
 		B0ABCF4B193195A3009BD297 = {
 			isa = PBXGroup;
 			children = (
-				B03B919519322E6B00053E4C /* Headers */,
+				B03B919519322E6B00053E4C /* CHeaders (for easier lookup) */,
 				B0ABCF56193195CC009BD297 /* MPWTest.c */,
 				B0ABCF57193195CC009BD297 /* MPWTest.r */,
 				B0517F4619325F7D00986B05 /* Makefile */,
