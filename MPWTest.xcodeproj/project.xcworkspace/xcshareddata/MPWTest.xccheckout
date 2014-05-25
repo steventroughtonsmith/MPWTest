@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>4A347565-2792-48F2-B2A9-FFB763E8695C</string>
+	<key>IDESourceControlProjectName</key>
+	<string>MPWTest</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>185034E7-C2C2-4AF6-991C-3FEB8F8E67F9</key>
+		<string>ssh://github.com/steventroughtonsmith/MPWTest.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>MPWTest.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>185034E7-C2C2-4AF6-991C-3FEB8F8E67F9</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>ssh://github.com/steventroughtonsmith/MPWTest.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>185034E7-C2C2-4AF6-991C-3FEB8F8E67F9</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>185034E7-C2C2-4AF6-991C-3FEB8F8E67F9</string>
+			<key>IDESourceControlWCCName</key>
+			<string>MPWTest</string>
+		</dict>
+	</array>
+</dict>
+</plist>

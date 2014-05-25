@@ -31,22 +31,15 @@ const short fileM = 1;
 
 void Repaint()
 {
-	short i;
-	char *hello = "Hello 68k World!";
-	char *hello2 = "Compiled in OS X";
+	Str255 hello = "\pHello 68k World!";
+	Str255 hello2 = "\pCompiled in OS X";
 	
 	MoveTo(50,50+23);
 	
-	for (i = 0; i < strlen(hello); i++)
-	{
-		DrawChar(hello[i]);
-	}
+	DrawString(hello);
 	
 	MoveTo(50,50+23+16);
-	for (i = 0; i < strlen(hello2); i++)
-	{
-		DrawChar(hello2[i]);
-	}
+	DrawString(hello2);
 }
 
 void DoCommand(long mResult)
@@ -199,12 +192,13 @@ void Initialize(void)
 
 } /*Initialize*/
 
+
 void main()
 {
 	Rect windowRect;
 	
 	Initialize();
-	
+
 	SetRect(&windowRect, 50, 50, 50+SCREEN_WIDTH, 50+SCREEN_HEIGHT);
 	
 	emulatorWindowPtr = NewWindow(nil, &windowRect, "\pMain Window", true, noGrowDocProc, (WindowPtr)-1L, true, (long)nil);
