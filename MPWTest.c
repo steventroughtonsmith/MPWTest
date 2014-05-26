@@ -9,38 +9,32 @@
 #include <ToolUtils.h>
 #include <Devices.h>
 
-WindowPtr emulatorWindowPtr;
+WindowPtr mainWindowPtr;
 
 Boolean quit = 0;
-QDGlobals qd;
+Boolean isShift = 0;
 
-RGBColor black = {0x0000, 0x0000, 0x0000};
-RGBColor white = {0xffff, 0xffff, 0xffff};
-RGBColor pink = {0xffff, 0x0000, 0xffff};
+QDGlobals qd;
+TEHandle textH;
 
 #define SCREEN_WIDTH 320
 #define SCREEN_HEIGHT 240
 
 #define appleID 128
 #define fileID 129
+#define editID 130
 
 #define rUserAlert 129
 
 const short appleM = 0;
 const short fileM = 1;
+const short editM = 2;
 
-void Repaint()
-{
-	Str255 hello = "\pHello 68k World!";
-	Str255 hello2 = "\pCompiled in OS X";
-	
-	MoveTo(50,50+23);
-	
-	DrawString(hello);
-	
-	MoveTo(50,50+23+16);
-	DrawString(hello2);
-}
+#define undoCommand 1
+#define cutCommand 3
+#define copyCommand 4
+#define pasteCommand 5
+#define clearCommand 6
 
 void DoCommand(long mResult)
 {
@@ -74,6 +68,25 @@ void DoCommand(long mResult)
 			quit = 1;
 			break;
 		}
+		case editID:
+		{
+			switch (theItem) {
+				case cutCommand:
+					TECut(textH);
+					break;
+				case copyCommand:
+					TECopy(textH);
+					break;
+				case pasteCommand:
+					TEPaste(textH);
+					break;
+				case clearCommand:
+					TEDelete(textH);
+					break;
+				default:
+					break;
+			}
+		}
 		default:
 			break;
 	}
@@ -81,12 +94,22 @@ void DoCommand(long mResult)
 	HiliteMenu(0);
 }
 
+
 void RunLoop()
 {
+	EventRecord    theEvent;
+	WindowPtr whichWindow;
+	Rect txRect;
+	
+	txRect = qd.thePort->portRect;
+	
+	InsetRect(&txRect,4,0);
+	textH = TENew(&txRect,&txRect);
+	
 	while (!quit)
 	{
-	 	EventRecord    theEvent;
-		WindowPtr whichWindow;
+		SystemTask();
+		TEIdle(textH);
 
 		if (GetNextEvent(everyEvent, &theEvent))
 		{
@@ -102,17 +125,38 @@ void RunLoop()
 							break;
 						}
 						case inMenuBar:
+						{
 							DoCommand(MenuSelect(theEvent.where));
 							break;
+						}
 						case inDrag:
+						{
 							DragWindow(whichWindow, theEvent.where, &qd.screenBits.bounds);
 							break;
+						}
+						case inContent:
+						{
+							if (whichWindow != FrontWindow())
+							{
+								SelectWindow(whichWindow);
+							}
+							else
+							{
+								GlobalToLocal(&theEvent.where);
+								if (theEvent.modifiers&shiftKey)
+									isShift = true;
+								
+								TEClick(theEvent.where, isShift, textH);
+							}
+							break;
+						}
 
 						default:
 							break;
 					}
 					break;
 				}
+				case autoKey:
 				case keyDown:
 				{
 					char theChar = (theEvent.message&charCodeMask);
@@ -126,6 +170,10 @@ void RunLoop()
 							quit = true;
 						}
 					}
+					else
+					{
+						TEKey(theChar, textH);
+					}
 					
 					break;
 				}
@@ -133,44 +181,43 @@ void RunLoop()
 				{
 					if (theEvent.modifiers&activeFlag)
 					{
-						// activate
+						TEActivate(textH);
 					}
 					else
 					{
-						// deactivate
+						TEDeactivate(textH);
 					}
 					break;
 				}
 				case updateEvt:
 				{
-					Repaint();
-//					BeginUpdate((WindowPtr)theEvent.message);
-//					EraseRect(&((WindowPtr)theEvent.message)->portRect);
-//					EndUpdate((WindowPtr)theEvent.message);
+					BeginUpdate((WindowPtr)theEvent.message);
+					EraseRect(&(qd.thePort->portRect));
+					TEUpdate(&(qd.thePort->portRect), textH);
+					EndUpdate((WindowPtr)theEvent.message);
 					break;
 				}
 				default:
 					break;
 			}
-			
 		}
 	}
 }
-
 
 void SetUpMenus()
 {
 	short i;
 	
-	MenuHandle myMenus[2];
+	MenuHandle myMenus[3];
 	myMenus[appleM] = GetMenu(appleID);
 	AddResMenu(myMenus[appleM],'DRVR');
 	myMenus[appleM] = GetMenu(appleID);
 	myMenus[fileM] = GetMenu(fileID);
+	myMenus[editM] = GetMenu(editID);
 
-	for (i = 1; i <= 2; i++)
+	for (i = 0; i < 3; i++)
 	{
-		InsertMenu(myMenus[i-1], 0);
+		InsertMenu(myMenus[i], 0);
 	}
 	
 	DrawMenuBar();
@@ -180,18 +227,17 @@ void Initialize(void)
 {
 	InitGraf((Ptr) &qd.thePort);
 	InitFonts();
+	FlushEvents(everyEvent, 0);
+
 	InitWindows();
 	InitMenus();
 	TEInit();
 	InitDialogs(nil);
 	InitCursor();
 	
-	FlushEvents(everyEvent, 0);
-	
 	SetUpMenus();
 
-} /*Initialize*/
-
+}
 
 void main()
 {
@@ -201,7 +247,8 @@ void main()
 
 	SetRect(&windowRect, 50, 50, 50+SCREEN_WIDTH, 50+SCREEN_HEIGHT);
 	
-	emulatorWindowPtr = NewWindow(nil, &windowRect, "\pMain Window", true, noGrowDocProc, (WindowPtr)-1L, true, (long)nil);
+	mainWindowPtr = NewWindow(nil, &windowRect, "\pMain Window", true, noGrowDocProc, (WindowPtr)-1L, true, (long)nil);
+	SetPort(mainWindowPtr);
 	
 	RunLoop();
 }

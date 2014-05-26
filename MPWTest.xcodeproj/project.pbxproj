@@ -439,7 +439,7 @@
 		B03B934319322E6C00053E4C /* WorldScript.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WorldScript.h; sourceTree = "<group>"; };
 		B03B934419322E6C00053E4C /* XCOFF.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XCOFF.h; sourceTree = "<group>"; };
 		B03B934519322E6C00053E4C /* ZoomedVideo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZoomedVideo.h; sourceTree = "<group>"; };
-		B0517F4619325F7D00986B05 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
+		B0517F4619325F7D00986B05 /* Makefile */ = {isa = PBXFileReference; explicitFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		B0ABCF56193195CC009BD297 /* MPWTest.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = MPWTest.c; sourceTree = "<group>"; };
 		B0ABCF57193195CC009BD297 /* MPWTest.r */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.rez; path = MPWTest.r; sourceTree = "<group>"; };
 /* End PBXFileReference section */
