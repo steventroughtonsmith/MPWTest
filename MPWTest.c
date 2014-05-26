@@ -70,21 +70,24 @@ void DoCommand(long mResult)
 		}
 		case editID:
 		{
-			switch (theItem) {
-				case cutCommand:
-					TECut(textH);
-					break;
-				case copyCommand:
-					TECopy(textH);
-					break;
-				case pasteCommand:
-					TEPaste(textH);
-					break;
-				case clearCommand:
-					TEDelete(textH);
-					break;
-				default:
-					break;
+			if (!SystemEdit(theItem-1)) // call Desk Manager to handle editing command if desk accessory window is the active window
+			{
+				switch (theItem) {
+					case cutCommand:
+						TECut(textH);
+						break;
+					case copyCommand:
+						TECopy(textH);
+						break;
+					case pasteCommand:
+						TEPaste(textH);
+						break;
+					case clearCommand:
+						TEDelete(textH);
+						break;
+					default:
+						break;
+				}
 			}
 		}
 		default:
