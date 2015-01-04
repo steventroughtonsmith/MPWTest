@@ -4,6 +4,9 @@
 # Uses modern (Xcode) version of Rez
 #
 
+# Location of your mpw binary
+MPW=~/bin/mpw
+
 RINCLUDES=/Applications/MPW-GM/Interfaces\&Libraries/Interfaces/RIncludes
 
 LDFLAGS = -w -c 'MPS ' -t AAPL -model far \
@@ -31,18 +34,18 @@ all: $(EXECUTABLE).ppc $(EXECUTABLE).68k
 	open .
 
 $(EXECUTABLE).ppc: $(PPC_OBJECTS)
-	mpw PPCLink $(PPC_LDFLAGS) $(PPC_OBJECTS) $(PPC_LIBRARIES) -o $@
+	$(MPW) PPCLink $(PPC_LDFLAGS) $(PPC_OBJECTS) $(PPC_LIBRARIES) -o $@
 	Rez -rd $(RFILES) -o $@ -i $(RINCLUDES) -append
 
 $(EXECUTABLE).68k: $(OBJECTS)
-	mpw link $(LFLAGS) $(OBJECTS) $(LIBRARIES) -o $@
+	$(MPW) link $(LFLAGS) $(OBJECTS) $(LIBRARIES) -o $@
 	Rez -rd $(RFILES) -o $@ -i $(RINCLUDES) -append
 
 %.68k.o : %.c
-	mpw SC $(SCFLAGS) $< -o $@
+	$(MPW) SC $(SCFLAGS) $< -o $@
 
 %.ppc.o : %.c
-	mpw MrC $(MRCFLAGS) $< -o $@
+	$(MPW) MrC $(MRCFLAGS) $< -o $@
 	
 clean:
 	rm -rf *o $(EXECUTABLE).ppc $(EXECUTABLE).68k
