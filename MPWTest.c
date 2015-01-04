@@ -36,6 +36,12 @@ const short editM = 2;
 #define pasteCommand 5
 #define clearCommand 6
 
+#ifdef powerc
+#define APP_NAME_STRING "\pPowerPC Window"
+#else
+#define APP_NAME_STRING "\p68K Window"
+#endif
+
 void DoCommand(long mResult)
 {
 	short theItem;
@@ -250,7 +256,7 @@ void main()
 
 	SetRect(&windowRect, 50, 50, 50+SCREEN_WIDTH, 50+SCREEN_HEIGHT);
 	
-	mainWindowPtr = NewWindow(nil, &windowRect, "\pMain Window", true, noGrowDocProc, (WindowPtr)-1L, true, (long)nil);
+	mainWindowPtr = NewWindow(nil, &windowRect, APP_NAME_STRING, true, noGrowDocProc, (WindowPtr)-1L, true, (long)nil);
 	SetPort(mainWindowPtr);
 	
 	RunLoop();

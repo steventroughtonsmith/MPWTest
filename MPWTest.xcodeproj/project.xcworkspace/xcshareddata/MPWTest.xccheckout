@@ -10,29 +10,29 @@
 	<string>MPWTest</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>185034E7-C2C2-4AF6-991C-3FEB8F8E67F9</key>
+		<key>D2E2C385733B7DA57B4251A9C250FCF21807165D</key>
 		<string>ssh://github.com/steventroughtonsmith/MPWTest.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>MPWTest.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>185034E7-C2C2-4AF6-991C-3FEB8F8E67F9</key>
+		<key>D2E2C385733B7DA57B4251A9C250FCF21807165D</key>
 		<string>../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>ssh://github.com/steventroughtonsmith/MPWTest.git</string>
 	<key>IDESourceControlProjectVersion</key>
-	<integer>110</integer>
+	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>185034E7-C2C2-4AF6-991C-3FEB8F8E67F9</string>
+	<string>D2E2C385733B7DA57B4251A9C250FCF21807165D</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>185034E7-C2C2-4AF6-991C-3FEB8F8E67F9</string>
+			<string>D2E2C385733B7DA57B4251A9C250FCF21807165D</string>
 			<key>IDESourceControlWCCName</key>
 			<string>MPWTest</string>
 		</dict>
