@@ -1,3 +1,8 @@
+#if TARGET_API_MAC_CARBON
+
+#include <Carbon.h>
+
+#else
 #define OLDROUTINENAMES 1
 
 #include <stdio.h>
@@ -9,12 +14,16 @@
 #include <ToolUtils.h>
 #include <Devices.h>
 
+#define GetWindowPort(w) w
+QDGlobals qd;
+
+#endif
+
 WindowPtr mainWindowPtr;
 
 Boolean quit = 0;
 Boolean isShift = 0;
 
-QDGlobals qd;
 TEHandle textH;
 
 #define SCREEN_WIDTH 320
@@ -37,9 +46,17 @@ const short editM = 2;
 #define clearCommand 6
 
 #ifdef powerc
-#define APP_NAME_STRING "\pPowerPC Window"
+#if TARGET_API_MAC_CARBON
+#define APP_NAME_STRING "\pPowerPC Carbon Window"
 #else
-#define APP_NAME_STRING "\p68K Window"
+#define APP_NAME_STRING "\pPowerPC Toolbox Window"
+#endif
+#else
+#if TARGET_API_MAC_CARBON
+#define APP_NAME_STRING "\p68K Carbon Window"
+#else
+#define APP_NAME_STRING "\p68K Toolbox Window"
+#endif
 #endif
 
 void DoCommand(long mResult)
@@ -60,6 +77,7 @@ void DoCommand(long mResult)
 			{
 				Alert(rUserAlert, nil);
 			}
+#if !TARGET_API_MAC_CARBON
 			else
 			{
 				/* all non-About items in this menu are DAs */
@@ -67,6 +85,7 @@ void DoCommand(long mResult)
 				GetMenuItemText(GetMenuHandle(appleID), theItem, daName);
 				daRefNum = OpenDeskAcc(daName);
 			}
+#endif
 			break;
 		}
 		case fileID:
@@ -76,7 +95,9 @@ void DoCommand(long mResult)
 		}
 		case editID:
 		{
+#if !TARGET_API_MAC_CARBON
 			if (!SystemEdit(theItem-1)) // call Desk Manager to handle editing command if desk accessory window is the active window
+#endif
 			{
 				switch (theItem) {
 					case cutCommand:
@@ -109,17 +130,25 @@ void RunLoop()
 	EventRecord    theEvent;
 	WindowPtr whichWindow;
 	Rect txRect;
+	Rect windRect;
 	
+#if TARGET_API_MAC_CARBON
+	BitMap 			theScreenBits;
+	GetWindowPortBounds(mainWindowPtr, &txRect);
+#else
 	txRect = qd.thePort->portRect;
+#endif
 	
 	InsetRect(&txRect,4,0);
 	textH = TENew(&txRect,&txRect);
 	
 	while (!quit)
 	{
+#if !TARGET_API_MAC_CARBON
 		SystemTask();
+#endif
 		TEIdle(textH);
-
+		
 		if (GetNextEvent(everyEvent, &theEvent))
 		{
 			switch (theEvent.what)
@@ -128,11 +157,13 @@ void RunLoop()
 				{
 					switch (FindWindow(theEvent.where, &whichWindow))
 					{
+#if !TARGET_API_MAC_CARBON
 						case inSysWindow:
 						{
 							SystemClick(&theEvent, whichWindow);
 							break;
 						}
+#endif
 						case inMenuBar:
 						{
 							DoCommand(MenuSelect(theEvent.where));
@@ -140,7 +171,13 @@ void RunLoop()
 						}
 						case inDrag:
 						{
-							DragWindow(whichWindow, theEvent.where, &qd.screenBits.bounds);
+#if TARGET_API_MAC_CARBON
+							GetQDGlobalsScreenBits( &theScreenBits ); /* carbon accessor */
+							windRect = theScreenBits.bounds;
+#else
+							windRect = qd.screenBits.bounds;
+#endif
+							DragWindow(whichWindow, theEvent.where, &windRect);
 							break;
 						}
 						case inContent:
@@ -159,7 +196,7 @@ void RunLoop()
 							}
 							break;
 						}
-
+							
 						default:
 							break;
 					}
@@ -200,9 +237,17 @@ void RunLoop()
 				}
 				case updateEvt:
 				{
+					Rect pr;
+					
 					BeginUpdate((WindowPtr)theEvent.message);
-					EraseRect(&(qd.thePort->portRect));
-					TEUpdate(&(qd.thePort->portRect), textH);
+					
+#if TARGET_API_MAC_CARBON
+					GetWindowPortBounds(mainWindowPtr, &pr);
+#else
+					pr = qd.thePort->portRect;
+#endif
+					EraseRect(&(pr));
+					TEUpdate(&(pr), textH);
 					EndUpdate((WindowPtr)theEvent.message);
 					break;
 				}
@@ -219,11 +264,13 @@ void SetUpMenus()
 	
 	MenuHandle myMenus[3];
 	myMenus[appleM] = GetMenu(appleID);
+#if !TARGET_API_MAC_CARBON
 	AddResMenu(myMenus[appleM],'DRVR');
+#endif
 	myMenus[appleM] = GetMenu(appleID);
 	myMenus[fileM] = GetMenu(fileID);
 	myMenus[editM] = GetMenu(editID);
-
+	
 	for (i = 0; i < 3; i++)
 	{
 		InsertMenu(myMenus[i], 0);
@@ -234,18 +281,22 @@ void SetUpMenus()
 
 void Initialize(void)
 {
+#if !TARGET_API_MAC_CARBON
 	InitGraf((Ptr) &qd.thePort);
 	InitFonts();
+#endif
+	
 	FlushEvents(everyEvent, 0);
-
+	
+#if !TARGET_API_MAC_CARBON
 	InitWindows();
 	InitMenus();
 	TEInit();
 	InitDialogs(nil);
+#endif
 	InitCursor();
 	
 	SetUpMenus();
-
 }
 
 void main()
@@ -253,11 +304,11 @@ void main()
 	Rect windowRect;
 	
 	Initialize();
-
+	
 	SetRect(&windowRect, 50, 50, 50+SCREEN_WIDTH, 50+SCREEN_HEIGHT);
 	
 	mainWindowPtr = NewWindow(nil, &windowRect, APP_NAME_STRING, true, noGrowDocProc, (WindowPtr)-1L, true, (long)nil);
-	SetPort(mainWindowPtr);
+	SetPort(GetWindowPort(mainWindowPtr));
 	
 	RunLoop();
 }
