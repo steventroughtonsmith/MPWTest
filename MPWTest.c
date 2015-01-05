@@ -3,7 +3,6 @@
 #include <Carbon.h>
 
 #else
-#define OLDROUTINENAMES 1
 
 #include <stdio.h>
 #include <Quickdraw.h>

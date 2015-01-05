@@ -31,7 +31,7 @@ PPC_LIBRARIES={SharedLibraries}InterfaceLib \
 CARBON_LIBRARIES={SharedLibraries}CarbonLib
 
 CARBONFLAGS=-d TARGET_API_MAC_CARBON
-TOOLBOXFLAGS=
+TOOLBOXFLAGS=-d OLDROUTINENAMES=1
 
 SOURCES=MPWTest.c
 
@@ -53,19 +53,11 @@ $(EXECUTABLE).ppc: $(PPC_OBJECTS)
 	Rez -rd $(RFILES) -o $@ -i $(RINCLUDES) -append
 
 $(EXECUTABLE).68k: $(OBJECTS)
-	if [ $(USE_CARBON) -eq 1 ]; then \
-		$(MPW) link $(LDFLAGS) $(OBJECTS) $(CARBON_LIBRARIES) -o $@; \
-	else \
-		$(MPW) link $(LDFLAGS) $(OBJECTS) $(LIBRARIES) -o $@; \
-	fi;
+	$(MPW) link $(LDFLAGS) $(OBJECTS) $(LIBRARIES) -o $@
 	Rez -rd $(RFILES) -o $@ -i $(RINCLUDES) -append
 
 %.68k.o : %.c
-	if [ $(USE_CARBON) -eq 1 ]; then \
-		$(MPW) SC $(CARBONFLAGS) $< -o $@; \
-	else \
-		$(MPW) SC $(TOOLBOXFLAGS) $< -o $@; \
-	fi;
+		$(MPW) SC $(TOOLBOXFLAGS) $< -o $@
 
 %.ppc.o : %.c
 	if [ $(USE_CARBON) -eq 1 ]; then \
