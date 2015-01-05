@@ -5,8 +5,10 @@ Simple Mac Toolbox app that uses API compatible with original Mac OS (runs on Sy
 
 Compiles using the [MPW compatibility layer](https://github.com/ksherlock/mpw).
 
+Can also be compiled for Carbon (runs on Classic Mac OS and OS X).
+
 Screenshot
 =============
 
-[![](https://lh4.googleusercontent.com/-hkuUAysqkHg/U4FuIfPuGTI/AAAAAAAABQ0/2OwJHAJphp8/w1252-h956-no/Screen+Shot+2014-05-25+at+03.13.34.jpg)](https://lh4.googleusercontent.com/-hkuUAysqkHg/U4FuIfPuGTI/AAAAAAAABQ0/2OwJHAJphp8/w1252-h956-no/Screen+Shot+2014-05-25+at+03.13.34.jpg)
+[![](https://lh4.googleusercontent.com/-51TxwrQZTDU/VKqjH-PTp4I/AAAAAAAACCU/_OOmqcCJzHk/w1024-h555-no/Screen-Shot-2015-01-05-at-12.28.02.jpg)](https://lh4.googleusercontent.com/-51TxwrQZTDU/VKqjH-PTp4I/AAAAAAAACCU/_OOmqcCJzHk/w1024-h555-no/Screen-Shot-2015-01-05-at-12.28.02.jpg)
 
