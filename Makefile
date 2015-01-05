@@ -9,8 +9,10 @@ MPW=~/bin/mpw
 
 RINCLUDES=/Applications/MPW-GM/Interfaces\&Libraries/Interfaces/RIncludes
 
-LDFLAGS = -w -c 'MPS ' -t AAPL -model far \
+LDFLAGS =-w -c 'MPS ' -t APPL -model far \
 	-sn STDIO=Main -sn INTENV=Main -sn %A5Init=Main
+
+PPC_LDFLAGS =-m main -w -c 'MPS ' -t APPL
 
 LIBRARIES={Libraries}Stubs.o \
 	{Libraries}MacRuntime.o \
@@ -38,7 +40,7 @@ $(EXECUTABLE).ppc: $(PPC_OBJECTS)
 	Rez -rd $(RFILES) -o $@ -i $(RINCLUDES) -append
 
 $(EXECUTABLE).68k: $(OBJECTS)
-	$(MPW) link $(LFLAGS) $(OBJECTS) $(LIBRARIES) -o $@
+	$(MPW) link $(LDFLAGS) $(OBJECTS) $(LIBRARIES) -o $@
 	Rez -rd $(RFILES) -o $@ -i $(RINCLUDES) -append
 
 %.68k.o : %.c
