@@ -90,4 +90,4 @@ obj/%.i386.o : %.c
 	gcc $(I386_CFLAGS) $< -o $@;
 
 clean:
-	rm -rf *o $(EXECUTABLE).i386.app $(EXECUTABLE).ppc $(EXECUTABLE).68k
+	rm -rf disk bin obj
