@@ -3,3 +3,6 @@
 clib
 lib
 *.68k
+bin/*
+obj/*
+disk/*

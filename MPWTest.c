@@ -1,7 +1,10 @@
 #if TARGET_API_MAC_CARBON
 
+#if __MACH__
+#include <Carbon/Carbon.h>
+#else
 #include <Carbon.h>
-
+#endif
 #else
 
 #include <stdio.h>
@@ -44,19 +47,24 @@ const short editM = 2;
 #define pasteCommand 5
 #define clearCommand 6
 
-#ifdef powerc
 #if TARGET_API_MAC_CARBON
+
+#ifdef __i386__
+#define APP_NAME_STRING "\pIntel Carbon Window"
+#elif powerc
 #define APP_NAME_STRING "\pPowerPC Carbon Window"
-#else
-#define APP_NAME_STRING "\pPowerPC Toolbox Window"
 #endif
+
 #else
-#if TARGET_API_MAC_CARBON
-#define APP_NAME_STRING "\p68K Carbon Window"
+
+#ifdef powerc
+#define APP_NAME_STRING "\pPowerPC Toolbox Window"
 #else
 #define APP_NAME_STRING "\p68K Toolbox Window"
 #endif
+
 #endif
+
 
 void DoCommand(long mResult)
 {
@@ -260,7 +268,10 @@ void RunLoop()
 void SetUpMenus()
 {
 	short i;
-	
+	OSErr err;
+	long result;
+	MenuRef menu;
+
 	MenuHandle myMenus[3];
 	myMenus[appleM] = GetMenu(appleID);
 #if !TARGET_API_MAC_CARBON
@@ -275,11 +286,33 @@ void SetUpMenus()
 		InsertMenu(myMenus[i], 0);
 	}
 	
+#if TARGET_API_MAC_CARBON
+	/* In OS X, 'Quit' moves from File to the Application Menu */
+	err = Gestalt(gestaltMenuMgrAttr, &result);
+	
+	if (!err && (result & gestaltMenuMgrAquaLayoutMask)) {
+		menu = GetMenuHandle (fileID);
+		DeleteMenuItem(menu, 1);
+		DeleteMenu(fileID);
+	}
+#endif
+	
 	DrawMenuBar();
 }
 
+#if TARGET_API_MAC_CARBON
+/* Here is our Quit Apple event handler */
+static pascal OSErr QuitAppleEventHandler (const AppleEvent *appleEvt,
+										   AppleEvent* reply, UInt32 refcon)
+{
+	quit = 1;
+}
+#endif
+
 void Initialize(void)
 {
+	OSErr err;
+	
 #if !TARGET_API_MAC_CARBON
 	InitGraf((Ptr) &qd.thePort);
 	InitFonts();
@@ -294,6 +327,12 @@ void Initialize(void)
 	InitDialogs(nil);
 #endif
 	InitCursor();
+	
+#if TARGET_API_MAC_CARBON
+	err = AEInstallEventHandler( kCoreEventClass, kAEQuitApplication,
+								NewAEEventHandlerUPP(QuitAppleEventHandler), 0, false );
+	if (err != noErr) ExitToShell();
+#endif
 	
 	SetUpMenus();
 }
