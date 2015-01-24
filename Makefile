@@ -33,10 +33,10 @@ I386_LIBRARIES=-framework ApplicationServices -framework Carbon
 
 CARBON_LIBRARIES={SharedLibraries}CarbonLib
 
-CARBONFLAGS=-d TARGET_API_MAC_CARBON
+CARBONFLAGS=-d TARGET_API_MAC_CARBON -typecheck relaxed
 TOOLBOXFLAGS=-d OLDROUTINENAMES=1
-I386_CFLAGS=-D TARGET_API_MAC_CARBON=1 -arch i386 -w -c -fwritable-strings -fpascal-strings
-I386_LDFLAGS=-arch i386
+I386_CFLAGS=-D TARGET_API_MAC_CARBON=1 -arch i386 -w -c -fwritable-strings -fpascal-strings -mmacosx-version-min=10.4
+I386_LDFLAGS=-arch i386 -mmacosx-version-min=10.4
 
 SOURCES=MPWTest.c
 

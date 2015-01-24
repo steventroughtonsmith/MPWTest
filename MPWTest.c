@@ -306,6 +306,7 @@ static pascal OSErr QuitAppleEventHandler (const AppleEvent *appleEvt,
 										   AppleEvent* reply, UInt32 refcon)
 {
 	quit = 1;
+	return noErr;
 }
 #endif
 
