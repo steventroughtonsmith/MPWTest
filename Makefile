@@ -15,7 +15,7 @@ LDFLAGS =-w -c 'MPS ' -t APPL \
 
 PPC_LDFLAGS =-m main -w -c 'MPS ' -t APPL
 
-USE_CARBON=0
+USE_CARBON=1
 
 LIBRARIES={Libraries}Stubs.o \
 	{Libraries}MacRuntime.o \
