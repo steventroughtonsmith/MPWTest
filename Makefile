@@ -10,10 +10,10 @@ HFSDM=/Applications/HFS\ Disk\ Maker.app/Contents/MacOS/hfs_disk_maker_cli
 
 RINCLUDES=/Applications/MPW-GM/Interfaces\&Libraries/Interfaces/RIncludes
 
-LDFLAGS =-w -c 'MPS ' -t APPL \
+LDFLAGS =-w -c 'MTST' -t APPL \
 	-sn STDIO=Main -sn INTENV=Main -sn %A5Init=Main
 
-PPC_LDFLAGS =-m main -w -c 'MPS ' -t APPL
+PPC_LDFLAGS =-m main -w -c 'MTST' -t APPL
 
 USE_CARBON=1
 
